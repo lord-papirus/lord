@@ -9,7 +9,6 @@ local PLAYER_SLOWDOWN_SPEED = 0.25
 --- @return          string name of the stage 0 bow
 local function to_bow_name(tool_name)
 	for name, bow in pairs(lord_bows.get_bows()) do
-		print(minetest.serialize(bow))
 		for _, stage in ipairs(bow.bow_stages.stages) do
 			if stage == tool_name then
 				return name

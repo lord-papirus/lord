@@ -1,8 +1,10 @@
 local math_pi, math_arctan, math_sqrt
 	= math.pi, math.atan2,  math.sqrt
 
-local projectiles  = {}
 
+local projectiles  = {
+	debug = false,
+}
 
 -- Update projectile life timer
 --- @param projectile LuaEntity  projectile entity
@@ -107,15 +109,17 @@ end
 local function flight_processing(projectile)
 	local vel = projectile.object:get_velocity()
 	if vel.y ~= 0 then
-		minetest.add_particle({
-			pos = projectile.object:get_pos(),
-			texture = "lord_bows_trajectory_particle.png",
-		})
-		local rot = {
+		if projectiles.debug then
+			minetest.add_particle({
+				pos = projectile.object:get_pos(),
+				texture = "lord_bows_trajectory_particle.png",
+			})
+		end
+		projectile.object:set_rotation({
 			x = 0,
 			y = math_pi + math_arctan(vel.z, vel.x),
-			z = math_arctan(vel.y, math_sqrt(vel.z * vel.z + vel.x * vel.x))}
-			projectile.object:set_rotation(rot)
+			z = math_arctan(vel.y, math_sqrt(vel.z * vel.z + vel.x * vel.x))
+		})
 	end
 end
 
